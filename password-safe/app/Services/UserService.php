@@ -24,22 +24,6 @@ class UserService
         return $user;
     }
 
-    public function getUser(string $id)
-    {
-        $userTest = Auth::user();
-        $user = User::find($id);
-
-        if(!$user)
-        {
-            return ['message' => 'Não Encontrado!'];
-        }
-        elseif ($userTest->id !== $user->id)
-        {
-            return ['message' => 'Usuario diferente'];
-        }
-        return $user;
-    }
-
     public function updateUser(StoreUserRequest $request, string $id)
     {
         $user = $this->getUser($id);
@@ -59,5 +43,21 @@ class UserService
     public function deleteUser(string $id)
     {
         $user = $this->getUser($id)->delete();
+    }
+
+    public function getUser(string $id)
+    {
+        $userTest = Auth::user();
+        $user = User::find($id);
+
+        if(!$user)
+        {
+            return ['message' => 'Não Encontrado!'];
+        }
+        elseif ($userTest->id !== $user->id)
+        {
+            return ['message' => 'Usuario diferente'];
+        }
+        return $user;
     }
 }
