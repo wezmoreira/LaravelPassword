@@ -20,4 +20,11 @@ class AuthController extends Controller
 
         return new UserResource(['message' => 'Falha na autenticacao']);
     }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return ['token' => 'Revoked', 'status' => 200];
+    }
 }

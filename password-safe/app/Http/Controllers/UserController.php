@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['store', 'show']);
+        $this->middleware('auth:sanctum')->only(['delete', 'show', 'update', 'index']);
     }
 
     public function index()
@@ -64,12 +66,19 @@ class UserController extends Controller
 
     public function getUser(string $id)
     {
+        $userTest = Auth::user();
         $user = User::find($id);
 
         if(!$user)
         {
             return ['message' => 'not found'];
         }
+        elseif ($userTest->id !== $user->id)
+        {
+            return ['message' => 'Usuario diferente'];
+            //return response()->json(['message' => 'Usuario não permitido'], 403);
+        }
         return $user;
     }
+
 }
