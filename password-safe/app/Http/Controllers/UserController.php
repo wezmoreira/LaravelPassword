@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['store', 'show']);
+    }
+
     public function index()
     {
         $user = User::paginate();
@@ -28,8 +34,8 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
-
+        //$user = User::findOrFail($id);
+        $user = $this->getUser($id);
         return new UserResource($user);
     }
 
@@ -54,5 +60,16 @@ class UserController extends Controller
         $user = User::findOrFail($id)->delete(); //TODO - verificar metodo findOrFail()
 
         return response()->json([], 204);
+    }
+
+    public function getUser(string $id)
+    {
+        $user = User::find($id);
+
+        if(!$user)
+        {
+            return ['message' => 'not found'];
+        }
+        return $user;
     }
 }
