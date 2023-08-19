@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use GuzzleHttp\Psr7\Response;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -36,7 +36,8 @@ class UserController extends Controller
     public function update(StoreUserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
-        $data = $request->all();
+
+        $data = $request->validated();
 
         if($request->password)
         {
