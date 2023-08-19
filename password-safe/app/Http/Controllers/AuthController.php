@@ -12,13 +12,12 @@ class AuthController extends Controller
     {
         if(Auth::attempt($request->only('email', 'password')))
         {
-            //return $this->response('Authorized', 200);
-            return new UserResource(['message' => 'Chegando aqui',
+            return new UserResource(['message' => 'Login com sucesso!',
                 'token' => $request->user()->createToken('invoice')->plainTextToken]
             );
         }
 
-        return new UserResource(['message' => 'Falha na autenticacao']);
+        return new UserResource(['message' => 'Falha na Autenticacao']);
     }
 
     public function logout(Request $request)

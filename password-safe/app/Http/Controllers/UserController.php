@@ -43,7 +43,7 @@ class UserController extends Controller
 
     public function update(StoreUserRequest $request, string $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->getUser($id);
 
         $data = $request->validated();
 
@@ -59,7 +59,8 @@ class UserController extends Controller
 
     public function delete(string $id)
     {
-        $user = User::findOrFail($id)->delete(); //TODO - verificar metodo findOrFail()
+        //$user = User::findOrFail($id)->delete(); //TODO - verificar metodo findOrFail()
+        $user = $this->getUser($id)->delete();
 
         return response()->json([], 204);
     }
@@ -76,9 +77,7 @@ class UserController extends Controller
         elseif ($userTest->id !== $user->id)
         {
             return ['message' => 'Usuario diferente'];
-            //return response()->json(['message' => 'Usuario não permitido'], 403);
         }
         return $user;
     }
-
 }
