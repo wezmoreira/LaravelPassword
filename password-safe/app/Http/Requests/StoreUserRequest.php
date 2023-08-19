@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUserRequest extends FormRequest
 {
@@ -36,6 +37,7 @@ class StoreUserRequest extends FormRequest
             ],
         ];
 
+        //TODO - mover pra um request proprio
         if ($this->method() === 'PATCH') {
             $rules['email'] = [
                 'required',

@@ -25,4 +25,5 @@ Route::controller(UserController::class)->group(function (){
     Route::get('/users', 'index');
     Route::post('/users', 'store');
     Route::get('/users/{id}', 'show');
+    Route::patch('users/{id}', 'update');
 });
