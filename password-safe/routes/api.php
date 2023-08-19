@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,9 @@ Route::controller(UserController::class)->group(function (){
     Route::get('/users/{id}', 'show');
     Route::patch('users/{id}', 'update');
     Route::delete('users/{id}', 'delete');
+});
+
+Route::controller(AuthController::class)->group(function (){
+    Route::post('/login', 'login');
+    Route::post('/logout', 'logout')->middleware('auth:sanctum');
 });
