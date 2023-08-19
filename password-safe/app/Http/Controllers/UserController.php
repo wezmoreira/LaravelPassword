@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -45,5 +46,12 @@ class UserController extends Controller
         $user->update($data);
 
         return new UserResource($user);
+    }
+
+    public function delete(string $id)
+    {
+        $user = User::findOrFail($id)->delete(); //TODO - verificar metodo findOrFail()
+
+        return response()->json([], 204);
     }
 }

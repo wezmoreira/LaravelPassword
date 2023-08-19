@@ -26,4 +26,5 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/users', 'store');
     Route::get('/users/{id}', 'show');
     Route::patch('users/{id}', 'update');
+    Route::delete('users/{id}', 'delete');
 });
