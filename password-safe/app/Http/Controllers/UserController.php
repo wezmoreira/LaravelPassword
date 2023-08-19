@@ -36,7 +36,6 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        //$user = User::findOrFail($id);
         $user = $this->getUser($id);
         return new UserResource($user);
     }
@@ -59,7 +58,6 @@ class UserController extends Controller
 
     public function delete(string $id)
     {
-        //$user = User::findOrFail($id)->delete(); //TODO - verificar metodo findOrFail()
         $user = $this->getUser($id)->delete();
 
         return response()->json([], 204);
@@ -72,7 +70,7 @@ class UserController extends Controller
 
         if(!$user)
         {
-            return ['message' => 'not found'];
+            return ['message' => 'Não Encontrado!'];
         }
         elseif ($userTest->id !== $user->id)
         {
