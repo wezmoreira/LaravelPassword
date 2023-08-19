@@ -24,6 +24,6 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return ['token' => 'Revoked', 'status' => 200];
+        return new UserResource(['token' => 'Revoked', 'status' => 200]);
     }
 }
