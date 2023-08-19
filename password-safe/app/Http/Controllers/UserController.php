@@ -14,4 +14,13 @@ class UserController extends Controller
 
         return new UserResource($user);
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $data['password'] = bcrypt($request->password);
+        $user = User::create($data);
+
+        return new UserResource($user);
+    }
 }
