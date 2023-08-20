@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -13,10 +14,14 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
-    public function __construct()
+    public function __construct(
+        UserService $service
+    )
     {
         $this->middleware('auth:sanctum')->only(['delete', 'show', 'update', 'index']);
+        $this->service = $service;
     }
+    protected UserService $service;
 
     public function index()
     {
@@ -27,55 +32,23 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $data = $request->validated();
-        $data['password'] = bcrypt($request->password);
-        $user = User::create($data);
-
-        return new UserResource($user);
+        return new UserResource($this->service->storeUser($request));
     }
 
     public function show(string $id)
     {
-        $user = $this->getUser($id);
-        return new UserResource($user);
+        return new UserResource($this->service->showUser($id));
     }
 
     public function update(StoreUserRequest $request, string $id)
     {
-        $user = $this->getUser($id);
-
-        $data = $request->validated();
-
-        if($request->password)
-        {
-            $data['password'] = bcrypt($request->password);
-        }
-
-        $user->update($data);
-
-        return new UserResource($user);
+        return new UserResource($this->service->updateUser($request, $id));
     }
 
     public function delete(string $id)
     {
-        $user = $this->getUser($id)->delete();
+        $this->service->deleteUser($id);
 
         return response()->json([], 204);
-    }
-
-    public function getUser(string $id)
-    {
-        $userTest = Auth::user();
-        $user = User::find($id);
-
-        if(!$user)
-        {
-            return ['message' => 'Não Encontrado!'];
-        }
-        elseif ($userTest->id !== $user->id)
-        {
-            return ['message' => 'Usuario diferente'];
-        }
-        return $user;
     }
 }
