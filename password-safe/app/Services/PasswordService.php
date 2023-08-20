@@ -40,7 +40,7 @@ class PasswordService
             return ['message' => 'Password não encontrado'];
         }
         if ($user->id !== $password->user_id) {
-            return ['message' => 'Unauthorized'];
+            return ['message' => 'Não Autorizado!'];
 
         }
 

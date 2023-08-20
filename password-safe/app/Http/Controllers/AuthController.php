@@ -13,7 +13,7 @@ class AuthController extends Controller
         if(Auth::attempt($request->only('email', 'password')))
         {
             return new UserResource(['message' => 'Login com sucesso!',
-                'token' => $request->user()->createToken('invoice')->plainTextToken]
+                'token' => $request->user()->createToken()->plainTextToken]
             );
         }
 
