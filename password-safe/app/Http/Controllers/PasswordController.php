@@ -31,7 +31,7 @@ class PasswordController extends Controller
     {
         $this->service->storePassword($request);
 
-        return ['message' => 'Password guardado com sucesso'];
+        return new UserResource(['message' => 'Password guardado com sucesso']);
     }
 
     public function userPasswords(string $id)
@@ -43,6 +43,6 @@ class PasswordController extends Controller
     {
         $result = $this->service->deletePasswordService($id);
 
-        return [$result];
+        return new UserResource([$result]);
     }
 }
